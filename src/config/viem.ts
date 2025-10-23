@@ -4,6 +4,7 @@ import moneyPotABIJson from '@/abis/evm/MoneyPot.json';
 export const moneyPotABI = moneyPotABIJson.abi;
 import { createPublicClient, createWalletClient, http, webSocket, defineChain } from 'viem';
 
+
 // Creditcoin EVM Testnet Configuration - Hardcoded values
 export const creditcoinTestnet = defineChain({
   id: 102031,
@@ -45,6 +46,9 @@ export const creditcoinTestnet = defineChain({
   },
   testnet: true,
 });
+
+export const CHAINS = [creditcoinTestnet];
+
 
 // Contract Configuration - From chain config
 export const MONEY_POT_CONTRACT_ADDRESS = creditcoinTestnet.custom.moneypot.address as `0x${string}`;

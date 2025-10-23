@@ -3,7 +3,7 @@ import injectedModule from '@web3-onboard/injected-wallets';
 import walletConnectModule from '@web3-onboard/walletconnect';
 import coinbaseModule from '@web3-onboard/coinbase';
 import metamaskModule from '@web3-onboard/metamask';
-import { EVM_CONFIG, creditcoinTestnet } from '@/config/viem';
+import { CHAINS, EVM_CONFIG, creditcoinTestnet } from '@/config/viem';
 import { toHex } from 'viem';
 
 // Initialize the injected wallets module
@@ -11,9 +11,9 @@ const injected = injectedModule();
 
 // Initialize WalletConnect module
 const walletConnect = walletConnectModule({
-  projectId: EVM_CONFIG.WALLETCONNECT_PROJECT_ID || 'placeholder_project_id',
-  requiredChains: [creditcoinTestnet.id].map(chainId => toHex(chainId)),
-  optionalChains: [creditcoinTestnet.id].map(chainId => toHex(chainId)),
+  projectId: EVM_CONFIG.WALLETCONNECT_PROJECT_ID,
+  requiredChains: [CHAINS[0].id],
+  optionalChains: [CHAINS.map(chain => chain.id)],
 });
 
 // Initialize Coinbase module
