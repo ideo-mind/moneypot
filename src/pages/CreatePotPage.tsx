@@ -16,21 +16,21 @@ import { Toaster, toast } from "sonner";
 
 
 
-import type { money_pot_manager } from "@/abis/0xea89ef9798a210009339ea6105c2008d8e154f8b5ae1807911c86320ea03ff3f";
+// Removed Aptos ABI import
 import { useNavigate } from "react-router-dom";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { CopyableInput } from "@/components/CopyableInput";
 import { CHARACTER_DOMAINS } from "@/lib/constants";
-import { getAuthOptions } from "@/lib/api";
+// Removed Aptos API import
 import { ColorDirectionMapper } from "@/components/ColorDirectionMapper";
 import { CharacterSelector } from "@/components/CharacterSelector";
 import { SuccessAnimation } from "@/components/SuccessAnimation";
-import { usePotStore, transformToPot } from "@/store/pot-store";
+// Removed Aptos store imports
 import { useEVMPotStore, transformEVMPotToPot } from "@/store/evm-pot-store";
 import { useTransactionStore } from "@/store/transaction-store";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
-import { useWallet } from "@/components/UnifiedWalletProvider";
+import { useWallet } from "@/components/WalletProvider";
 import { useNetworkAdapter } from "@/lib/network-adapter";
 import { evmVerifierService, EVMVerifierServiceClient } from "@/lib/evm-verifier-api";
 import { getConnectedWallet } from "@/lib/web3onboard";
@@ -44,9 +44,9 @@ export function CreatePotPage() {
   
   const { walletState } = useWallet();
   const { adapter } = useNetworkAdapter();
-  const addPot = usePotStore((state) => state.addPot);
+  // Removed Aptos store references
   const addEVMPot = useEVMPotStore((state) => state.addPot);
-  const fetchPots = usePotStore((state) => state.fetchPots);
+  // Removed Aptos store references
   const fetchEVMPots = useEVMPotStore((state) => state.fetchPots);
   const { addTransaction, updateTransaction } = useTransactionStore();
   const navigate = useNavigate();
@@ -186,11 +186,11 @@ export function CreatePotPage() {
     }
   };
   const generate1FA = () => {
-    const oneFaAccount = Account.generate();
-    setOneFaAddress(oneFaAccount.accountAddress.toString());
-    const rawPrivateKey = oneFaAccount.privateKey.toString().replace("ed25519-priv-0x", "");
-    const privateKey = `0x${rawPrivateKey}`;
-    setOneFaPrivateKey(privateKey);
+    // Generate a random EVM address for 1FA
+    const randomAddress = `0x${Array.from({ length: 40 }, () => Math.floor(Math.random() * 16).toString(16)).join('')}`;
+    setOneFaAddress(randomAddress);
+    const randomPrivateKey = `0x${Array.from({ length: 64 }, () => Math.floor(Math.random() * 16).toString(16)).join('')}`;
+    setOneFaPrivateKey(randomPrivateKey);
     toast.success("1FA Key Generated!", {
       description: "Save the private key securely. It is NOT recoverable.",
     });
@@ -219,15 +219,7 @@ export function CreatePotPage() {
       return;
     }
     
-    // Validate network based on wallet type
-    if (walletState.type === 'aptos') {
-      try {
-        validateTestnet(network);
-      } catch (error) {
-        toast.error(error instanceof Error ? error.message : "Please switch to Aptos Testnet");
-        return;
-      }
-    }
+    // Removed Aptos validation
     
     if (!password || Object.keys(colorMap).length < mappableDirections.length) {
       toast.error("Please complete all fields in the previous steps.");
@@ -237,17 +229,12 @@ export function CreatePotPage() {
     // Generate a default 1FA address if none was provided
     let finalOneFaAddress = oneFaAddress;
     if (!finalOneFaAddress) {
-      if (walletState.type === 'aptos') {
-        const defaultAccount = Account.generate();
-        finalOneFaAddress = defaultAccount.accountAddress.toString();
-      } // else {
-        // For EVM, generate a random address
-        finalOneFaAddress = `0x${Array.from({ length: 40 }, () => Math.floor(Math.random() * 16).toString(16)).join('')}`;
-      }
+      // For EVM, generate a random address
+      finalOneFaAddress = `0x${Array.from({ length: 40 }, () => Math.floor(Math.random() * 16).toString(16)).join('')}`;
     }
     
     setIsSubmitting(true);
-    const toastId = toast.loading(`Submitting transaction to ${walletState.type === 'evm' ? 'Creditcoin' : 'Aptos'}...`);
+    const toastId = toast.loading(`Submitting transaction to Creditcoin...`);
     
     // Add transaction to log
     const txId = addTransaction({
@@ -261,9 +248,10 @@ export function CreatePotPage() {
     try {
       if (walletState.type === 'evm') {
         await handleEVMCreatePot(finalOneFaAddress, toastId, txId);
-      } // else {
-        // Removed Aptos code
       }
+      // else {
+      //   // Removed Aptos code
+      // }
     } catch (error) {
       console.error("Pot creation failed:", error);
       
@@ -356,113 +344,6 @@ export function CreatePotPage() {
     setTimeout(() => navigate("/pots"), 3000);
   };
 
-  const handleAptosCreatePot = async (finalOneFaAddress: string, toastId: string, txId: string) => {
-    const amountInOctas = BigInt(Math.floor(amount * 1_000_000));
-    const entryFeeInOctas = BigInt(Math.floor(entryFee * 1_000_000));
-    const durationInSeconds = BigInt(getDurationInSeconds());
-    
-    // Use wallet adapter to sign and submit transaction
-    const response = await signAndSubmitTransaction({
-      sender: account!.address,
-      data: {
-        function: `${MODULE_ADDRESS}::${MODULE_NAME}::create_pot_entry`,
-        typeArguments: [],
-        functionArguments: [
-          amountInOctas.toString(),
-          durationInSeconds.toString(),
-          entryFeeInOctas.toString(),
-          finalOneFaAddress,
-        ],
-      },
-    });
-    
-    // Update transaction with hash
-    updateTransaction(txId, { hash: response.hash });
-    
-    // Wait for transaction to complete
-    const result = await aptos.waitForTransaction({
-      transactionHash: response.hash,
-    });
-    
-    // Debug: Log all events to understand the structure
-    console.log("Transaction result:", result);
-    console.log("All events:", (result as any).events);
-    
-    let potId: string | undefined;
-    
-    // Extract pot_id from events using proper PotEvent type
-    const potCreatedEvent = (result as any).events?.find((e: any) => {
-      console.log("Checking event:", e);
-      // Look for PotEvent with event_type containing "created"
-      if (e.type.includes("PotEvent")) {
-        const eventData = e.data as money_pot_manager.PotEvent;
-        console.log("PotEvent data:", eventData);
-        return eventData.event_type.includes("created");
-      }
-      return false;
-    });
-    
-    if (potCreatedEvent) {
-      const eventData = potCreatedEvent.data as money_pot_manager.PotEvent;
-      potId = eventData.id.toString();
-      console.log("Extracted pot_id from PotEvent:", potId);
-    } else {
-      // Fallback: try to find any event that might contain pot information
-      console.log("No PotEvent found, trying fallback...");
-      const fallbackEvent = (result as any).events?.find((e: any) => 
-        e.type.includes("money_pot") || e.type.includes("created") || e.type.includes("pot")
-      );
-      
-      if (fallbackEvent) {
-        console.log("Found fallback event:", fallbackEvent);
-        // Try to extract pot_id from various possible locations
-        potId = fallbackEvent.data?.pot_id?.toString() || fallbackEvent.data?.id?.toString() || fallbackEvent.data?.value?.toString();
-        if (potId) {
-          console.log("Extracted pot_id from fallback:", potId);
-        } // else {
-          throw new Error(`Could not extract pot_id from fallback event: ${JSON.stringify(fallbackEvent)}`);
-        }
-      } // else {
-        throw new Error(`Could not find any relevant event in transaction result. Available events: ${JSON.stringify((result as any).events)}`);
-      }
-    }
-    
-    if (!potId) {
-      throw new Error("Could not extract pot_id from any event.");
-    }
-    
-    toast.loading("Registering pot with verifier...", { id: toastId });
-    
-    // Register with verifier service
-    await registerPot({ 
-      potId: potId.toString(), 
-      password, 
-      legend: colorMap, 
-      oneFaAddress: finalOneFaAddress 
-    });
-    
-    // Fetch the created pot from blockchain
-    const [potData] = await _0xea89ef9798a210009339ea6105c2008d8e154f8b5ae1807911c86320ea03ff3f.money_pot_manager.view.getPot(aptos, {
-      functionArguments: [BigInt(potId)]
-    });
-    
-    const newPot = transformToPot(potData);
-    addPot(newPot);
-    
-    // Refresh the pots list to get the latest pot IDs and ensure new pot appears at top
-    await fetchPots(true);
-    
-    // Update transaction as successful
-    updateTransaction(txId, { 
-      status: 'success', 
-      potId: potId.toString(),
-      description: `Successfully created Pot #${potId} with ${amount} USDC`
-    });
-    
-    toast.dismiss(toastId);
-    setCreationSuccess(true);
-    setTimeout(() => navigate("/pots"), 3000);
-  };
   return (
     <div className="max-w-4xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
       <Toaster richColors position="top-right" />

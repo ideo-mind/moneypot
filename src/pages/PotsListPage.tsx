@@ -2,7 +2,7 @@ import { PotCard } from "@/components/PotCard";
 import { PotCardSkeleton } from "@/components/PotCardSkeleton";
 import { usePotStore } from "@/store/pot-store";
 import { useEVMPotStore } from "@/store/evm-pot-store";
-import { useWallet } from "@/components/UnifiedWalletProvider";
+import { useWallet } from "@/components/WalletProvider";
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";

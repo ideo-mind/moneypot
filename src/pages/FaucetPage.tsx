@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Loader2, Coins, CheckCircle, XCircle } from 'lucide-react';
-import { useWallet } from '@/components/UnifiedWalletProvider';
+import { useWallet } from '@/components/WalletProvider';
 import { evmFaucetService } from '@/lib/evm-faucet';
 import { toast } from 'sonner';
 

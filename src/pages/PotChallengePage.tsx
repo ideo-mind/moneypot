@@ -2,7 +2,7 @@ import { useEffect, useState, useMemo, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { usePotStore } from "@/store/pot-store";
 import { useEVMPotStore } from "@/store/evm-pot-store";
-import { useWallet } from "@/components/UnifiedWalletProvider";
+import { useWallet } from "@/components/WalletProvider";
 import { useNetworkAdapter } from "@/lib/network-adapter";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -22,7 +22,7 @@ import { Label } from "@/components/ui/label";
 import { getOneFaKey, storeOneFaKey } from "@/lib/oneFaStorage";
 import { useTransactionStore } from "@/store/transaction-store";
 import { AuthenticationDisplay } from "@/components/AuthenticationDisplay";
-import { validateTestnet } from "@/lib/networkValidation";
+// Removed networkValidation import
 type GameState = "idle" | "paying" | "fetching_challenge" | "playing" | "verifying" | "won" | "lost";
 type KeyState = "unchecked" | "validating" | "valid" | "invalid";
 export function PotChallengePage() {
@@ -226,12 +226,7 @@ export function PotChallengePage() {
         return;
       }
       
-      try {
-        validateTestnet(network);
-      } catch (error) {
-        toast.error(error instanceof Error ? error.message : "Please switch to Aptos Testnet");
-        return;
-      }
+      // Removed Aptos validation
     }
     
     if (!pot) {
