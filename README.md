@@ -1,18 +1,18 @@
 # Money Pot
 
-A provably fair, skill-based gaming dApp on Aptos where users create and solve USDC-funded treasure hunts using a unique authentication challenge.
+A provably fair, skill-based gaming dApp on Creditcoin EVM where users create and solve USDC-funded treasure hunts using a unique authentication challenge.
 
 ## About The Project
 
-Money Pot is a visually stunning, provably fair gaming dApp on the Aptos blockchain. It enables 'Pot Creators' to deposit USDC into smart contracts, creating 'treasure hunts' secured by a unique, brain-based authentication challenge. 'Treasure Hunters' pay a small entry fee to attempt to solve the challenge. A successful hunt wins 40% of the pot. The game theory design ensures fairness: creators earn a 50% share of entry fees from successful hunts, incentivizing them to create legitimate, solvable challenges. The frontend provides an immersive, illustrative experience for creating, browsing, and attempting these challenges, complete with seamless Aptos wallet integration.
+Money Pot is a visually stunning, provably fair gaming dApp on the Creditcoin EVM blockchain. It enables 'Pot Creators' to deposit USDC into smart contracts, creating 'treasure hunts' secured by a unique, brain-based authentication challenge. 'Treasure Hunters' pay a small entry fee to attempt to solve the challenge. A successful hunt wins 40% of the pot. The game theory design ensures fairness: creators earn a 50% share of entry fees from successful hunts, incentivizing them to create legitimate, solvable challenges. The frontend provides an immersive, illustrative experience for creating, browsing, and attempting these challenges, complete with seamless EVM wallet integration.
 
 ### Key Features
 
 - **Pot Creation:** Users can create new treasure hunt pots with USDC deposits, setting a one-letter password and custom challenge configurations.
 - **Treasure Hunting:** Browse active pots, pay an entry fee, and attempt to solve the authentication challenge to win a share of the pot.
 - **Provably Fair:** Game theory mechanics prevent creator cheating. Honest creators earn from entry fees, while cheaters lose attraction and potential earnings.
-- **USDC Economy:** Real-money gaming with stablecoin settlements on the Aptos blockchain.
-- **Seamless Wallet Integration:** Connects with popular Aptos wallets for smooth on-chain transactions.
+- **USDC Economy:** Real-money gaming with stablecoin settlements on the Creditcoin blockchain.
+- **Seamless Wallet Integration:** Connects with popular EVM wallets for smooth on-chain transactions.
 - **Visually Stunning UI:** A beautiful, modern interface built with obsessive attention to visual excellence and interactive polish.
 
 ## Built With
@@ -27,8 +27,8 @@ This project is built with a modern, high-performance tech stack:
   - [shadcn/ui](https://ui.shadcn.com/)
   - [Framer Motion](https://www.framer.com/motion/) for animations
 - **Blockchain Integration:**
-  - [Aptos TS SDK](https://aptos.dev/sdks/ts-sdk/v2)
-  - [@aptos-labs/wallet-adapter-react](https://github.com/aptos-labs/aptos-wallet-adapter)
+  - [Viem](https://viem.sh/)
+  - [@web3-onboard/react](https://onboard.blocknative.com/)
 - **State Management:**
   - [Zustand](https://github.com/pmndrs/zustand)
 - **Backend:**

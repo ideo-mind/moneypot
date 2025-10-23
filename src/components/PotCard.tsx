@@ -7,51 +7,25 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Clock, DollarSign, Gem, Shield, XCircle, Users } from "lucide-react";
 import { Badge } from "./ui/badge";
 import { cn } from "@/lib/utils";
-import { usePotStore } from "@/store/pot-store";
+import { useEVMPotStore } from "@/store/evm-pot-store";
 import { useState } from "react";
 import { toast } from "sonner";
-import { useWallet } from "@aptos-labs/wallet-adapter-react";
-import { MODULE_ADDRESS, MODULE_NAME, aptos } from "@/lib/aptos";
-import { validateTestnet } from "@/lib/networkValidation";
+import { evmContractService } from "@/lib/evm-api";
+
 interface PotCardProps {
   pot: Pot;
 }
+
 export function PotCard({ pot }: PotCardProps) {
   const isHot = parseInt(pot.attempts_count) > 10;
-  const expirePot = usePotStore((state) => state.expirePot);
+  const expirePot = useEVMPotStore((state) => state.expirePot);
   const [isExpiring, setIsExpiring] = useState(false);
-  const { signAndSubmitTransaction, connected, account, network } = useWallet();
   
   const handleExpirePot = async () => {
-    if (!connected || !account) {
-      toast.error("Please connect your wallet first");
-      return;
-    }
-    
-    // Validate network before proceeding
-    try {
-      validateTestnet(network);
-    } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Please switch to Aptos Testnet");
-      return;
-    }
-    
     setIsExpiring(true);
     try {
       // Submit blockchain transaction
-      const response = await signAndSubmitTransaction({
-        sender: account.address,
-        data: {
-          function: `${MODULE_ADDRESS}::${MODULE_NAME}::expire_pot`,
-          typeArguments: [],
-          functionArguments: [BigInt(pot.id).toString()],
-        },
-      });
-      
-      // Wait for transaction to complete
-      await aptos.waitForTransaction({
-        transactionHash: response.hash,
-      });
+      await evmContractService.expirePot(pot.id);
       
       // Update local state
       const success = await expirePot(pot.id);

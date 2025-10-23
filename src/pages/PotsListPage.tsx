@@ -2,23 +2,23 @@ import { PotCard } from "@/components/PotCard";
 import { PotCardSkeleton } from "@/components/PotCardSkeleton";
 import { usePotStore } from "@/store/pot-store";
 import { useEVMPotStore } from "@/store/evm-pot-store";
-import { useUnifiedWallet } from "@/components/UnifiedWalletProvider";
+import { useWallet } from "@/components/UnifiedWalletProvider";
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { Network } from "lucide-react";
 export function PotsListPage() {
-  const { walletState } = useUnifiedWallet();
+  const { walletState } = useWallet();
   
-  // Aptos store
-  const aptosPots = usePotStore((state) => state.sortedPots);
-  const aptosLoading = usePotStore((state) => state.loading);
-  const aptosError = usePotStore((state) => state.error);
-  const aptosHasMorePots = usePotStore((state) => state.hasMorePots);
-  const aptosCurrentBatch = usePotStore((state) => state.currentBatch);
-  const aptosTotalPots = usePotStore((state) => state.totalPots);
-  const aptosFetchPots = usePotStore((state) => state.fetchPots);
+  // Old Aptos store - no longer used
+  
+  
+  
+  
+  
+  
+  
   const aptosFetchNextBatch = usePotStore((state) => state.fetchNextBatch);
   const aptosClearCache = usePotStore((state) => state.clearCache);
   

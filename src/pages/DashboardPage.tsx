@@ -1,4 +1,4 @@
-import { useWallet } from "@aptos-labs/wallet-adapter-react";
+
 import { PotCard } from "@/components/PotCard";
 import { PotCardSkeleton } from "@/components/PotCardSkeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -12,7 +12,7 @@ import { formatDistanceToNow } from "date-fns";
 import { Link } from "react-router-dom";
 import { PartyPopper, ShieldClose, Trophy, Package, Target, XCircle } from "lucide-react";
 import { toast } from "sonner";
-import { MODULE_ADDRESS, MODULE_NAME, aptos } from "@/lib/aptos";
+
 const StatCard = ({ title, value, icon: Icon }: { title: string, value: string | number, icon: React.ElementType }) => (
   <Card>
     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">

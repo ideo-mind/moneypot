@@ -4,7 +4,7 @@ This document outlines the integration of Creditcoin EVM testnet support into th
 
 ## Overview
 
-The application now supports both Aptos and EVM (Creditcoin) networks, allowing users to connect with either wallet type and interact with the respective smart contracts.
+The application now exclusively supports EVM (Creditcoin) networks, allowing users to connect with EVM wallets and interact with the smart contracts.
 
 ## Network Configuration
 
@@ -21,14 +21,14 @@ The application now supports both Aptos and EVM (Creditcoin) networks, allowing 
 
 ### Key Components
 
-1. **UnifiedWalletProvider** (`src/components/UnifiedWalletProvider.tsx`)
-   - Manages both Aptos and EVM wallet connections
-   - Provides unified wallet state management
-   - Handles wallet switching between networks
+1. **WalletProvider** (`src/components/WalletProvider.tsx`)
+   - Manages EVM wallet connections
+   - Provides wallet state management
+   - Handles connection and disconnection
 
-2. **UnifiedWalletConnectButton** (`src/components/UnifiedWalletConnectButton.tsx`)
-   - Single UI component for both wallet types
-   - Shows appropriate balances (APT/USDC for Aptos, CTC for EVM)
+2. **WalletConnectButton** (`src/components/WalletConnectButton.tsx`)
+   - UI component for wallet connection
+   - Shows appropriate balances (CTC/USDC)
    - Network switching capabilities
 
 3. **EVM Configuration** (`src/config/viem.ts`)
@@ -44,7 +44,6 @@ The application now supports both Aptos and EVM (Creditcoin) networks, allowing 
 
 5. **EVM Contract Service** (`src/lib/evm-api.ts`)
    - Contract interaction layer for EVM
-   - Similar API to Aptos contract interactions
    - Transaction management and state updates
 
 6. **EVM ABI Structure** (`src/abis/evm/money-pot.ts`)
@@ -66,22 +65,16 @@ All EVM configuration is centralized in `src/config/viem.ts`. Contract addresses
 
 ### Connecting Wallets
 
-Users can now connect either:
+Users can connect EVM Wallets: MetaMask, WalletConnect, Coinbase, etc.
 
-- **Aptos Wallets**: Petra, Martian, etc.
-- **EVM Wallets**: MetaMask, WalletConnect, Coinbase, etc.
-
-The unified wallet button shows:
-
-- Current wallet type (APTOS/EVM)
+The wallet button shows:
 - Wallet address
 - Network status
-- Appropriate balances
-- Option to switch between wallet types
+- Appropriate balances (CTC, USDC)
 
 ### Contract Interactions
 
-The EVM contract service provides the same interface as the Aptos service:
+The EVM contract service provides an interface to interact with the smart contract:
 
 ```typescript
 import { evmContractService } from "@/lib/evm-api"
@@ -132,14 +125,12 @@ const activePots = await evmContractService.getActivePots()
 ## Network Switching
 
 The application automatically handles network switching:
-
-- **Aptos**: Switches to Aptos Testnet
-- **EVM**: Adds Creditcoin Testnet if not present, then switches to it
+- Adds Creditcoin Testnet if not present
+- Switches to Creditcoin Testnet when needed
 
 ## Error Handling
 
 The integration includes comprehensive error handling for:
-
 - Network mismatches
 - Transaction failures
 - Wallet connection issues
@@ -158,11 +149,12 @@ To test the EVM integration:
 ## Future Enhancements
 
 - Multi-network support (multiple EVM chains)
-- Cross-chain pot creation
-- Unified transaction history
+- Support for additional wallet providers
+- Enhanced transaction monitoring
+- Advanced error handling and recovery
 - Network-specific UI adaptations
 
-## Dependencies Added
+## Dependencies
 
 - `viem`: Ethereum library for contract interactions
 - `@web3-onboard/react`: React hooks for Web3Onboard
@@ -174,7 +166,6 @@ To test the EVM integration:
 
 ## Notes
 
-- The EVM integration maintains the same user experience as Aptos
-- All existing Aptos functionality remains unchanged
-- The unified wallet system allows seamless switching between networks
+- The EVM integration maintains a clean user experience
+- The wallet system provides a seamless experience
 - Contract ABI placeholders are ready for your actual contract deployment

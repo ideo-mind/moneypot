@@ -11,11 +11,11 @@ import { Wand2, Loader2, Terminal, Eye, EyeOff, Shuffle, Calendar as CalendarIco
 import { format } from "date-fns";
 import { motion, AnimatePresence } from "framer-motion";
 import { Toaster, toast } from "sonner";
-import { useWallet } from "@aptos-labs/wallet-adapter-react";
-import { Account, U64 } from "@aptos-labs/ts-sdk";
-import { MODULE_ADDRESS, MODULE_NAME, aptos } from "@/lib/aptos";
-import { registerPot } from "@/lib/api";
-import { _0xea89ef9798a210009339ea6105c2008d8e154f8b5ae1807911c86320ea03ff3f } from "@/abis";
+
+
+
+
+
 import type { money_pot_manager } from "@/abis/0xea89ef9798a210009339ea6105c2008d8e154f8b5ae1807911c86320ea03ff3f";
 import { useNavigate } from "react-router-dom";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -29,8 +29,8 @@ import { usePotStore, transformToPot } from "@/store/pot-store";
 import { useEVMPotStore, transformEVMPotToPot } from "@/store/evm-pot-store";
 import { useTransactionStore } from "@/store/transaction-store";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { validateTestnet } from "@/lib/networkValidation";
-import { useUnifiedWallet } from "@/components/UnifiedWalletProvider";
+
+import { useWallet } from "@/components/UnifiedWalletProvider";
 import { useNetworkAdapter } from "@/lib/network-adapter";
 import { evmVerifierService, EVMVerifierServiceClient } from "@/lib/evm-verifier-api";
 import { getConnectedWallet } from "@/lib/web3onboard";
@@ -41,8 +41,8 @@ const steps = [
   { id: 4, name: "Review & Deposit" },
 ];
 export function CreatePotPage() {
-  const { signAndSubmitTransaction, connected, account, network } = useWallet();
-  const { walletState } = useUnifiedWallet();
+  
+  const { walletState } = useWallet();
   const { adapter } = useNetworkAdapter();
   const addPot = usePotStore((state) => state.addPot);
   const addEVMPot = useEVMPotStore((state) => state.addPot);
@@ -240,7 +240,7 @@ export function CreatePotPage() {
       if (walletState.type === 'aptos') {
         const defaultAccount = Account.generate();
         finalOneFaAddress = defaultAccount.accountAddress.toString();
-      } else {
+      } // else {
         // For EVM, generate a random address
         finalOneFaAddress = `0x${Array.from({ length: 40 }, () => Math.floor(Math.random() * 16).toString(16)).join('')}`;
       }
@@ -261,8 +261,8 @@ export function CreatePotPage() {
     try {
       if (walletState.type === 'evm') {
         await handleEVMCreatePot(finalOneFaAddress, toastId, txId);
-      } else {
-        await handleAptosCreatePot(finalOneFaAddress, toastId, txId);
+      } // else {
+        // Removed Aptos code
       }
     } catch (error) {
       console.error("Pot creation failed:", error);
@@ -419,10 +419,10 @@ export function CreatePotPage() {
         potId = fallbackEvent.data?.pot_id?.toString() || fallbackEvent.data?.id?.toString() || fallbackEvent.data?.value?.toString();
         if (potId) {
           console.log("Extracted pot_id from fallback:", potId);
-        } else {
+        } // else {
           throw new Error(`Could not extract pot_id from fallback event: ${JSON.stringify(fallbackEvent)}`);
         }
-      } else {
+      } // else {
         throw new Error(`Could not find any relevant event in transaction result. Available events: ${JSON.stringify((result as any).events)}`);
       }
     }

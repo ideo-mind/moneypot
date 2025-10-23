@@ -2,15 +2,15 @@ import { useEffect, useState, useMemo, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { usePotStore } from "@/store/pot-store";
 import { useEVMPotStore } from "@/store/evm-pot-store";
-import { useUnifiedWallet } from "@/components/UnifiedWalletProvider";
+import { useWallet } from "@/components/UnifiedWalletProvider";
 import { useNetworkAdapter } from "@/lib/network-adapter";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, Loader2, PartyPopper, ShieldClose, SkipForward, CheckCircle2, XCircle, KeyRound, Zap, Target } from "lucide-react";
 import { Toaster, toast } from "sonner";
-import { useWallet } from "@aptos-labs/wallet-adapter-react";
-import { MODULE_ADDRESS, MODULE_NAME, aptos } from "@/lib/aptos";
-import { getAuthOptions, verifyAuth } from "@/lib/api";
+
+
+
 import { evmVerifierService, EVMVerifierServiceClient } from "@/lib/evm-verifier-api";
 import { getConnectedWallet } from "@/lib/web3onboard";
 import { _0xea89ef9798a210009339ea6105c2008d8e154f8b5ae1807911c86320ea03ff3f } from "@/abis";
@@ -18,7 +18,7 @@ import type { money_pot_manager } from "@/abis/0xea89ef9798a210009339ea6105c2008
 import { PotCardSkeleton } from "@/components/PotCardSkeleton";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Account } from "@aptos-labs/ts-sdk";
+
 import { getOneFaKey, storeOneFaKey } from "@/lib/oneFaStorage";
 import { useTransactionStore } from "@/store/transaction-store";
 import { AuthenticationDisplay } from "@/components/AuthenticationDisplay";
@@ -29,16 +29,16 @@ export function PotChallengePage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { connected, signAndSubmitTransaction, account, network } = useWallet();
-  const { walletState } = useUnifiedWallet();
+  const { walletState } = useWallet();
   const { adapter } = useNetworkAdapter();
   
-  // Aptos store
-  const aptosPot = usePotStore((state) => state.currentPot);
-  const aptosLoading = usePotStore((state) => state.loading);
-  const aptosError = usePotStore((state) => state.error);
-  const aptosFetchPotById = usePotStore((state) => state.fetchPotById);
-  const aptosAddAttempt = usePotStore((state) => state.addAttempt);
-  const aptosExpirePot = usePotStore((state) => state.expirePot);
+  // Old Aptos store - no longer used
+  
+  
+  
+  
+  
+  
   
   // EVM store
   const evmPot = useEVMPotStore((state) => state.currentPot);
@@ -222,7 +222,7 @@ export function PotChallengePage() {
     // Validate network based on wallet type
     if (walletState.type === 'aptos') {
       if (!connected || !account) {
-        toast.error("Please connect your Aptos wallet first.");
+        toast.error("Please connect your wallet first.");
         return;
       }
       
@@ -264,7 +264,7 @@ export function PotChallengePage() {
       if (walletState.type === 'evm') {
         await handleEVMAttemptPot(toastId, txId);
       } else {
-        await handleAptosAttemptPot(toastId, txId);
+        // Removed Aptos code
       }
     } catch (error) {
       // Update transaction as failed

@@ -9,12 +9,6 @@ export const MAPPABLE_DIRECTIONS = ["Up", "Down", "Left", "Right"];
 
 // Network configurations
 export const NETWORKS = {
-  APTOS: {
-    name: 'Aptos Testnet',
-    chainId: '2',
-    symbol: 'APT',
-    type: 'aptos' as const,
-  },
   CREDITCOIN: {
     name: 'Creditcoin Testnet',
     chainId: '102031',
@@ -24,7 +18,7 @@ export const NETWORKS = {
 };
 
 // Wallet types
-export type WalletType = 'aptos' | 'evm';
+export type WalletType = 'evm';
 const uniqueChars = (arr: string[]) => [...new Set(arr)];
 export const CHARACTER_DOMAINS: Record<string, string[]> = {
   ascii: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".split(""),

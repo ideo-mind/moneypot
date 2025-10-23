@@ -3,12 +3,12 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Loader2, Coins, CheckCircle, XCircle } from 'lucide-react';
-import { useUnifiedWallet } from '@/components/UnifiedWalletProvider';
+import { useWallet } from '@/components/UnifiedWalletProvider';
 import { evmFaucetService } from '@/lib/evm-faucet';
 import { toast } from 'sonner';
 
 export function FaucetPage() {
-  const { walletState } = useUnifiedWallet();
+  const { walletState } = useWallet();
   const [isRequesting, setIsRequesting] = useState(false);
   const [lastResult, setLastResult] = useState<any>(null);
 

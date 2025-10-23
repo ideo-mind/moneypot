@@ -57,7 +57,7 @@ export function HomePage() {
               variants={itemVariants}
               className="max-w-2xl mx-auto text-lg md:text-xl text-slate-600 dark:text-slate-300"
             >
-              Money Pot is a provably fair gaming dApp on Aptos. Create USDC-funded treasure hunts secured by your mind, or test your skills to win big.
+              Money Pot is a provably fair gaming dApp on Creditcoin. Create USDC-funded treasure hunts secured by your mind, or test your skills to win big.
             </motion.p>
             <motion.div
               variants={itemVariants}
