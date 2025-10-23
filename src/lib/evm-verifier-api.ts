@@ -1,5 +1,6 @@
 import { VERIFIER_API_URL } from "@/config"
 import { hashMessage, recoverMessageAddress } from "viem"
+import { CHAINS } from "./evm"
 
 export interface EVMVerifierResponse {
   success: boolean
@@ -44,7 +45,10 @@ class EVMVerifierServiceClient {
   private baseUrl: string
   private chainId: number
 
-  constructor(baseUrl: string = VERIFIER_API_URL, chainId: number = 102031) {
+  constructor(
+    baseUrl: string = VERIFIER_API_URL,
+    chainId: number = CHAINS[0].id
+  ) {
     this.baseUrl = baseUrl
     this.chainId = chainId
   }
@@ -195,8 +199,25 @@ export const getAuthOptions = async (
   walletAddress: string
 ): Promise<EVMAuthenticateOptions> => {
   try {
-    // For now, return mock data since the API might not be fully implemented
-    // This should be replaced with actual API calls when the backend is ready
+    // Get the connected wallet to create a signature
+    const { getConnectedWallet } = await import("@/lib/web3onboard")
+    const wallet = getConnectedWallet()
+    
+    if (!wallet) {
+      throw new Error("No wallet connected")
+    }
+    
+    // Create a signature for authentication
+    const message = JSON.stringify({ attemptId, walletAddress })
+    const signature = await EVMVerifierServiceClient.createEVMSignature(wallet, message)
+    
+    // Call the actual API
+    const authOptions = await evmVerifierService.authenticateOptions(attemptId, signature)
+    
+    return authOptions
+  } catch (error) {
+    console.error("Failed to get auth options:", error)
+    // Fallback to mock data if API fails
     return {
       challenges: [],
       colors: {
@@ -213,8 +234,5 @@ export const getAuthOptions = async (
         skip: "S",
       },
     }
-  } catch (error) {
-    console.error("Failed to get auth options:", error)
-    throw error
   }
 }
