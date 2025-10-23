@@ -13,7 +13,7 @@ const injected = injectedModule()
 const walletConnect = walletConnectModule({
   projectId: EVM_CONFIG.WALLETCONNECT_PROJECT_ID,
   requiredChains: [CHAINS[0].id],
-  optionalChains: [CHAINS.map((chain) => chain.id)],
+  optionalChains: CHAINS.map((chain) => chain.id),
 })
 
 // Initialize Coinbase module
