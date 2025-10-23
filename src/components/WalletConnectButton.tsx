@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { formatCTC, publicClient } from '@/config/viem';
 import { evmContractService } from '@/lib/evm-api';
-import { getConnectedWallet } from '@/lib/web3onboard';
+import { getConnectedWallet, switchNetwork, addNetwork } from '@/lib/web3onboard';
 import { AlertTriangle, ChevronDown, Coins, Copy, LogOut, Wallet, Wifi } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useWallet } from './WalletProvider';
@@ -138,14 +138,11 @@ export function WalletConnectButton() {
 
   const switchToTestnet = async () => {
     try {
-      // Import the switchNetwork function
-      const { switchNetwork } = await import('@/lib/web3onboard');
       await switchNetwork(102031); // Creditcoin testnet chain ID
     } catch (error) {
       console.error('Failed to switch EVM network:', error);
       // If switching fails, try adding the network first
       try {
-        const { addNetwork } = await import('@/lib/web3onboard');
         await addNetwork();
       } catch (addError) {
         console.error('Failed to add network:', addError);
