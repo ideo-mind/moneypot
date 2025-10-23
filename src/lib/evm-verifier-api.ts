@@ -1,6 +1,6 @@
 import { VERIFIER_API_URL } from "@/config"
+import { CHAIN_DEFAULT } from "@/config/viem"
 import { hashMessage, recoverMessageAddress } from "viem"
-import { CHAINS } from "./evm"
 
 export interface EVMVerifierResponse {
   success: boolean
@@ -47,7 +47,7 @@ class EVMVerifierServiceClient {
 
   constructor(
     baseUrl: string = VERIFIER_API_URL,
-    chainId: number = CHAINS[0].id
+    chainId: number = CHAIN_DEFAULT.id
   ) {
     this.baseUrl = baseUrl
     this.chainId = chainId
@@ -226,13 +226,13 @@ export const getAuthOptions = async (
     // Fallback to mock data if API fails
     return {
       challenges: [],
-      colors: {
+      colors: CHAIN_DEFAULT.custom.moneypot.colors || {
         red: "#ef4444",
         green: "#22c55e",
         blue: "#3b82f6",
         yellow: "#eab308",
       },
-      directions: {
+      directions: CHAIN_DEFAULT.custom.moneypot.directions || {
         up: "U",
         down: "D",
         left: "L",

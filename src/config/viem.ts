@@ -46,6 +46,18 @@ export const creditcoinTestnet = defineChain({
         decimals: 6,
         abis: moneyPotABI,
       },
+      colors: {
+        red: "#ef4444",
+        green: "#22c55e",
+        blue: "#3b82f6",
+        yellow: "#eab308",
+      },
+      directions: {
+        up: "U",
+        down: "D",
+        left: "L",
+        right: "R",
+      },
     },
   },
   testnet: true,
@@ -55,24 +67,24 @@ export const CHAINS = [creditcoinTestnet]
 export const CHAIN_DEFAULT = CHAINS[0]
 
 // Contract Configuration - From chain config
-export const MONEY_POT_CONTRACT_ADDRESS = creditcoinTestnet.custom.moneypot
+export const MONEY_POT_CONTRACT_ADDRESS = CHAIN_DEFAULT.custom.moneypot
   .address as `0x${string}`
-export const USDC_TOKEN_ADDRESS = creditcoinTestnet.custom.moneypot.token
+export const USDC_TOKEN_ADDRESS = CHAIN_DEFAULT.custom.moneypot.token
   .address as `0x${string}`
-c
+
 // WalletConnect Configuration - Hardcoded
 export const WALLETCONNECT_PROJECT_ID = import.meta.env
   .VITE_WALLETCONNECT_PROJECT_ID
 
 // Create public client for read operations
 export const publicClient = createPublicClient({
-  chain: creditcoinTestnet,
+  chain: CHAIN_DEFAULT,
   transport: http(),
 })
 
 // Create WebSocket client for real-time updates
 export const wsClient = createPublicClient({
-  chain: creditcoinTestnet,
+  chain: CHAIN_DEFAULT,
   transport: webSocket(),
 })
 
@@ -80,7 +92,7 @@ export const wsClient = createPublicClient({
 export const createEVMWalletClient = (account: any) => {
   return createWalletClient({
     account,
-    chain: creditcoinTestnet,
+    chain: CHAIN_DEFAULT,
     transport: http(),
   })
 }
@@ -102,20 +114,13 @@ export const parseCTC = (ctc: number) => {
 
 // Export all configuration
 export const EVM_CONFIG = {
-  CHAIN_ID: 102031,
-  CHAIN_NAME: "Creditcoin Testnet",
-  EXPLORER_URL: "https://creditcoin-testnet.blockscout.com",
-  CONTRACT_ADDRESS: MONEY_POT_CONTRACT_ADDRESS,
-  USDC_TOKEN_ADDRESS,
+  CHAIN_ID: CHAIN_DEFAULT.id,
+  CHAIN_NAME: CHAIN_DEFAULT.name,
+  EXPLORER_URL: CHAIN_DEFAULT.blockExplorers.default.url,
+  CONTRACT_ADDRESS: CHAIN_DEFAULT.custom.moneypot.address as `0x${string}`,
+  USDC_TOKEN_ADDRESS: CHAIN_DEFAULT.custom.moneypot.token
+    .address as `0x${string}`,
   WALLETCONNECT_PROJECT_ID,
-  NATIVE_CURRENCY: {
-    name: "Creditcoin",
-    symbol: "CTC",
-    decimals: 18,
-  },
-  USDC_TOKEN: {
-    name: "Money Pot",
-    symbol: "USDC",
-    decimals: 6,
-  },
+  NATIVE_CURRENCY: CHAIN_DEFAULT.nativeCurrency,
+  USDC_TOKEN: CHAIN_DEFAULT.custom.moneypot.token,
 }
