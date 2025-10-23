@@ -1,4 +1,4 @@
-import { useRouteError, isRouteErrorResponse } from 'react-router-dom';
+import { useRouteError, isRouteErrorResponse } from 'react-router';
 import { useEffect } from 'react';
 import { errorReporter } from '@/lib/errorReporter';
 import { ErrorFallback } from './ErrorFallback';

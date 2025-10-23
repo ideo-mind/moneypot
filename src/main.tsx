@@ -5,7 +5,7 @@ import { createRoot } from 'react-dom/client'
 import {
   createBrowserRouter,
   RouterProvider,
-} from "react-router-dom";
+} from "react-router";
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { RouteErrorBoundary } from './components/RouteErrorBoundary';
 import './index.css'

@@ -1,4 +1,4 @@
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router";
 import { WalletConnectButton } from "./WalletConnectButton";
 import { NetworkSelector } from "./NetworkSelector";
 // Removed BalanceDisplay import

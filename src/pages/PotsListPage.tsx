@@ -5,7 +5,7 @@ import { useEVMPotStore } from "@/store/evm-pot-store";
 import { useWallet } from "@/components/WalletProvider";
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { Badge } from "@/components/ui/badge";
 import { Network } from "lucide-react";
 export function PotsListPage() {

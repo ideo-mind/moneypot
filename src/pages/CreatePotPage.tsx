@@ -17,7 +17,7 @@ import { Toaster, toast } from "sonner";
 
 
 // Removed Aptos ABI import
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { CopyableInput } from "@/components/CopyableInput";
 import { CHARACTER_DOMAINS } from "@/lib/constants";

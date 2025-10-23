@@ -72,7 +72,7 @@
         "react-hook-form": "^7.60.0",
         "react-hotkeys-hook": "^5.1.0",
         "react-resizable-panels": "^3.0.3",
-        "react-router-dom": "6.30.0",
+        "react-router": "^7.1.0",
         "react-select": "^5.10.2",
         "react-swipeable": "^7.0.2",
         "react-use": "^17.6.0",
@@ -565,8 +565,6 @@
     "@react-types/shared": ["@react-types/shared@3.32.1", "", { "peerDependencies": { "react": "^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1" } }, "sha512-famxyD5emrGGpFuUlgOP6fVW2h/ZaF405G5KDi3zPHzyjAWys/8W6NAVJtNbkCkhedmvL0xOhvt8feGXyXaw5w=="],
 
     "@remix-run/node-fetch-server": ["@remix-run/node-fetch-server@0.8.1", "", {}, "sha512-J1dev372wtJqmqn9U/qbpbZxbJSQrogNN2+Qv1lKlpATpe/WQ9aCZfl/xSb9d2Rgh1IyLSvNxZAXPZxruO6Xig=="],
-
-    "@remix-run/router": ["@remix-run/router@1.23.0", "", {}, "sha512-O3rHJzAQKamUz1fvE0Qaw0xSFqsA/yafi2iqeE0pvdFtCO1viYx8QL6f3Ln/aCCTLxs68SLf0KPM9eSeM8yBnA=="],
 
     "@reown/appkit": ["@reown/appkit@1.8.9", "", { "dependencies": { "@reown/appkit-common": "1.8.9", "@reown/appkit-controllers": "1.8.9", "@reown/appkit-pay": "1.8.9", "@reown/appkit-polyfills": "1.8.9", "@reown/appkit-scaffold-ui": "1.8.9", "@reown/appkit-ui": "1.8.9", "@reown/appkit-utils": "1.8.9", "@reown/appkit-wallet": "1.8.9", "@walletconnect/universal-provider": "2.21.9", "bs58": "6.0.0", "semver": "7.7.2", "valtio": "2.1.7", "viem": ">=2.37.9" }, "optionalDependencies": { "@lit/react": "1.0.8" } }, "sha512-e3N2DAzf3Xv3jnoD8IsUo0/Yfwuhk7npwJBe1+9rDJIRwgPsyYcCLD4gKPDFC5IUIfOLqK7YtGOh9oPEUnIWpw=="],
 
@@ -1690,9 +1688,7 @@
 
     "react-resizable-panels": ["react-resizable-panels@3.0.6", "", { "peerDependencies": { "react": "^16.14.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc", "react-dom": "^16.14.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc" } }, "sha512-b3qKHQ3MLqOgSS+FRYKapNkJZf5EQzuf6+RLiq1/IlTHw99YrZ2NJZLk4hQIzTnnIkRg2LUqyVinu6YWWpUYew=="],
 
-    "react-router": ["react-router@6.30.0", "", { "dependencies": { "@remix-run/router": "1.23.0" }, "peerDependencies": { "react": ">=16.8" } }, "sha512-D3X8FyH9nBcTSHGdEKurK7r8OYE1kKFn3d/CF+CoxbSHkxU7o37+Uh7eAHRXr6k2tSExXYO++07PeXJtA/dEhQ=="],
-
-    "react-router-dom": ["react-router-dom@6.30.0", "", { "dependencies": { "@remix-run/router": "1.23.0", "react-router": "6.30.0" }, "peerDependencies": { "react": ">=16.8", "react-dom": ">=16.8" } }, "sha512-x30B78HV5tFk8ex0ITwzC9TTZMua4jGyA9IUlH1JLQYQTFyxr/ZxwOJq7evg1JX1qGVUcvhsmQSKdPncQrjTgA=="],
+    "react-router": ["react-router@7.9.4", "", { "dependencies": { "cookie": "^1.0.1", "set-cookie-parser": "^2.6.0" }, "peerDependencies": { "react": ">=18", "react-dom": ">=18" }, "optionalPeers": ["react-dom"] }, "sha512-SD3G8HKviFHg9xj7dNODUKDFgpG4xqD5nhyd0mYoB5iISepuZAvzSr8ywxgxKJ52yRzf/HWtVHc9AWwoTbljvA=="],
 
     "react-select": ["react-select@5.10.2", "", { "dependencies": { "@babel/runtime": "^7.12.0", "@emotion/cache": "^11.4.0", "@emotion/react": "^11.8.1", "@floating-ui/dom": "^1.0.1", "@types/react-transition-group": "^4.4.0", "memoize-one": "^6.0.0", "prop-types": "^15.6.0", "react-transition-group": "^4.3.0", "use-isomorphic-layout-effect": "^1.2.0" }, "peerDependencies": { "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0", "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0" } }, "sha512-Z33nHdEFWq9tfnfVXaiM12rbJmk+QjFEztWLtmXqQhz6Al4UZZ9xc0wiatmGtUOCCnHN0WizL3tCMYRENX4rVQ=="],
 
@@ -1765,6 +1761,8 @@
     "semver": ["semver@7.7.2", "", { "bin": { "semver": "bin/semver.js" } }, "sha512-RF0Fw+rO5AMf9MAyaRXI4AV0Ulj5lMHqVxxdSgiVbixSCXoEmmX/jk0CuJw4+3SqroYO9VoUh+HcuJivvtJemA=="],
 
     "set-blocking": ["set-blocking@2.0.0", "", {}, "sha512-KiKBS8AnWGEyLzofFfmvKwpdPzqiy16LvQfK3yv/fVH7Bj13/wl3JSR1J+rfgRE9q7xUJK4qvgS8raSOeLUehw=="],
+
+    "set-cookie-parser": ["set-cookie-parser@2.7.1", "", {}, "sha512-IOc8uWeOZgnb3ptbCURJWNjWUPcO3ZnTTdzsurqERrP6nPyv+paC55vJM0LpOlT2ne+Ix+9+CRG1MNLlyZ4GjQ=="],
 
     "set-function-length": ["set-function-length@1.2.2", "", { "dependencies": { "define-data-property": "^1.1.4", "es-errors": "^1.3.0", "function-bind": "^1.1.2", "get-intrinsic": "^1.2.4", "gopd": "^1.0.1", "has-property-descriptors": "^1.0.2" } }, "sha512-pgRc4hJ4/sNjWCSS9AmnS40x3bNMDTknHgL5UaMBTMyJnU90EgWh1Rz+MC9eFu4BuN/UwZjKQuY/1v3rM7HMfg=="],
 

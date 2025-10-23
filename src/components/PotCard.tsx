@@ -1,7 +1,7 @@
 import { Pot } from "@/types";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { motion } from "framer-motion";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Clock, DollarSign, Gem, Shield, XCircle, Users } from "lucide-react";
