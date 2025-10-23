@@ -202,18 +202,24 @@ export const getAuthOptions = async (
     // Get the connected wallet to create a signature
     const { getConnectedWallet } = await import("@/lib/web3onboard")
     const wallet = getConnectedWallet()
-    
+
     if (!wallet) {
       throw new Error("No wallet connected")
     }
-    
+
     // Create a signature for authentication
     const message = JSON.stringify({ attemptId, walletAddress })
-    const signature = await EVMVerifierServiceClient.createEVMSignature(wallet, message)
-    
+    const signature = await EVMVerifierServiceClient.createEVMSignature(
+      wallet,
+      message
+    )
+
     // Call the actual API
-    const authOptions = await evmVerifierService.authenticateOptions(attemptId, signature)
-    
+    const authOptions = await evmVerifierService.authenticateOptions(
+      attemptId,
+      signature
+    )
+
     return authOptions
   } catch (error) {
     console.error("Failed to get auth options:", error)

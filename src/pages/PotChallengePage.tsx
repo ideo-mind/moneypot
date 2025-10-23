@@ -11,7 +11,7 @@ import { Toaster, toast } from "sonner";
 
 
 
-import { evmVerifierService, EVMVerifierServiceClient } from "@/lib/evm-verifier-api";
+import { evmVerifierService, EVMVerifierServiceClient, getAuthOptions } from "@/lib/evm-verifier-api";
 import { getConnectedWallet } from "@/lib/web3onboard";
 import { _0xea89ef9798a210009339ea6105c2008d8e154f8b5ae1807911c86320ea03ff3f } from "@/abis";
 import type { money_pot_manager } from "@/abis/0xea89ef9798a210009339ea6105c2008d8e154f8b5ae1807911c86320ea03ff3f";

@@ -32,7 +32,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 
 import { useWallet } from "@/components/WalletProvider";
 import { useNetworkAdapter } from "@/lib/network-adapter";
-import { evmVerifierService, EVMVerifierServiceClient } from "@/lib/evm-verifier-api";
+import { evmVerifierService, EVMVerifierServiceClient, getAuthOptions } from "@/lib/evm-verifier-api";
 import { getConnectedWallet } from "@/lib/web3onboard";
 const steps = [
   { id: 1, name: "Define Pot" },
@@ -86,16 +86,16 @@ export function CreatePotPage() {
       try {
         // Use a dummy attempt ID to get the dynamic data
         const authOptions = await getAuthOptions("dummy", "dummy");
-        setDynamicColors(authOptions.colors);
-        setDynamicDirections(authOptions.directions);
+        setDynamicColors(authOptions.colors || {});
+        setDynamicDirections(authOptions.directions || {});
         
         // Extract mappable directions (exclude skip)
-        const directions = Object.values(authOptions.directions);
+        const directions = Object.values(authOptions.directions || {});
         setMappableDirections(directions.filter(dir => dir.toLowerCase() !== 'skip'));
         
         // Initialize color map with dynamic colors
         const initialColorMap: Record<string, string> = {};
-        Object.keys(authOptions.colors).forEach((color, index) => {
+        Object.keys(authOptions.colors || {}).forEach((color, index) => {
           if (index < directions.length) {
             initialColorMap[color] = directions[index];
           }
@@ -717,7 +717,7 @@ export function CreatePotPage() {
                           </li>
                           <li className="flex justify-between"><span>1FA Address:</span> <span className="font-mono text-xs">{oneFaAddress ? `${oneFaAddress.slice(0,10)}...` : "Will be auto-generated"}</span></li>
                         </ul>
-                        <Button onClick={handleCreatePot} disabled={isSubmitting || !connected || !password || Object.keys(colorMap).length < mappableDirections.length} className="w-full bg-brand-green hover:bg-brand-green/90 text-white font-bold text-lg py-6">
+                        <Button onClick={handleCreatePot} disabled={isSubmitting || !walletState.isConnected || !password || Object.keys(colorMap).length < mappableDirections.length} className="w-full bg-brand-green hover:bg-brand-green/90 text-white font-bold text-lg py-6">
                           {isSubmitting ? <Loader2 className="mr-2 h-6 w-6 animate-spin" /> : `Deposit ${amount} USDC & Create Pot`}
                         </Button>
                       </CardContent>
