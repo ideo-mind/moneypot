@@ -237,7 +237,6 @@ export const getAuthOptions = async (
         down: "D",
         left: "L",
         right: "R",
-        skip: "S",
       },
     }
   }
