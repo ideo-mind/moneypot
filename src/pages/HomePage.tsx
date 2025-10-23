@@ -8,10 +8,12 @@ import { useEffect } from "react";
 import { DemoVideo } from "@/components/DemoVideo";
 import { PotCardSkeleton } from "@/components/PotCardSkeleton";
 export function HomePage() {
+  console.log('HomePage component rendering');
   const pots = usePotStore((state) => state.sortedPots);
   const loading = usePotStore((state) => state.loading);
   const fetchPots = usePotStore((state) => state.fetchPots);
   useEffect(() => {
+    console.log('HomePage useEffect - fetching pots');
     fetchPots();
   }, [fetchPots]);
   const featuredPots = pots.slice(0, 3);

@@ -116,6 +116,7 @@ export const useEVMPotStore = create<EVMPotState>((set, get) => ({
     const state = get();
     if (state.loading) return;
 
+    console.log('EVM Pot Store: Starting fetchPots, forceRefresh:', forceRefresh);
     set({ loading: true, error: null });
 
     try {
@@ -136,12 +137,19 @@ export const useEVMPotStore = create<EVMPotState>((set, get) => ({
       const now = Date.now();
       const shouldRefresh = forceRefresh || (now - metadata.lastFetch > 30000);
 
+      console.log('EVM Pot Store: Should refresh:', shouldRefresh);
+
       if (shouldRefresh) {
+        console.log('EVM Pot Store: Fetching active pots from EVM contract...');
         // Fetch active pots from EVM contract
         const activePots = await evmContractService.getActivePots();
         
+        console.log('EVM Pot Store: Got active pots:', activePots);
+        
         // Transform to UI format
         const transformedPots = activePots.map(transformEVMPotToPot);
+        
+        console.log('EVM Pot Store: Transformed pots:', transformedPots);
         
         // Update metadata
         metadata = {

@@ -31,35 +31,44 @@ export const WalletProvider = ({ children }: PropsWithChildren) => {
 
   // Monitor EVM wallet connection
   useEffect(() => {
-    const handleEVMWalletChange = () => {
-      const evmWallet = getConnectedWallet();
-      if (evmWallet) {
-        setWalletState(prev => ({
-          ...prev,
-          type: 'evm',
-          address: evmWallet.accounts[0]?.address || null,
-          isConnected: true,
-          error: null,
-        }));
-      } else {
-        setWalletState(prev => ({
-          ...prev,
-          type: null,
-          address: null,
-          isConnected: false,
-        }));
-      }
-    };
+    try {
+      const handleEVMWalletChange = () => {
+        const evmWallet = getConnectedWallet();
+        if (evmWallet) {
+          setWalletState(prev => ({
+            ...prev,
+            type: 'evm',
+            address: evmWallet.accounts[0]?.address || null,
+            isConnected: true,
+            error: null,
+          }));
+        } else {
+          setWalletState(prev => ({
+            ...prev,
+            type: null,
+            address: null,
+            isConnected: false,
+          }));
+        }
+      };
 
-    // Subscribe to wallet changes
-    const unsubscribe = onboard.state.select('wallets').subscribe(handleEVMWalletChange);
+      // Subscribe to wallet changes
+      const unsubscribe = onboard.state.select('wallets').subscribe(handleEVMWalletChange);
 
-    // Initial check
-    handleEVMWalletChange();
+      // Initial check
+      handleEVMWalletChange();
 
-    return () => {
-      unsubscribe.unsubscribe();
-    };
+      return () => {
+        unsubscribe.unsubscribe();
+      };
+    } catch (error) {
+      console.error('WalletProvider initialization error:', error);
+      setWalletState(prev => ({
+        ...prev,
+        error: error instanceof Error ? error.message : 'Wallet initialization failed',
+        isLoading: false,
+      }));
+    }
   }, []);
 
   const connectEVM = async () => {

@@ -151,10 +151,12 @@ class EVMContractService {
   // Get all active pot IDs
   async getActivePots(): Promise<string[]> {
     try {
+      console.log('EVM Contract Service: Getting active pots...');
       const result = await publicClient.readContract({
         ...contractFunctions.getActivePots,
       });
 
+      console.log('EVM Contract Service: Active pots result:', result);
       return (result as bigint[]).map(id => id.toString());
     } catch (error) {
       console.error('Failed to get active pots:', error);

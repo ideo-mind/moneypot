@@ -35,7 +35,14 @@ const router = createBrowserRouter([
   },
 ]);
 // Do not touch this code
-createRoot(document.getElementById('root')!).render(
+console.log('Main.tsx - Starting app initialization');
+const rootElement = document.getElementById('root');
+if (!rootElement) {
+  console.error('Root element not found!');
+} else {
+  console.log('Root element found, rendering app');
+}
+createRoot(rootElement!).render(
   <StrictMode>
     <ErrorBoundary>
       <WalletProvider>

@@ -11,7 +11,7 @@ const injected = injectedModule();
 
 // Initialize WalletConnect module
 const walletConnect = walletConnectModule({
-  projectId: EVM_CONFIG.WALLETCONNECT_PROJECT_ID,
+  projectId: EVM_CONFIG.WALLETCONNECT_PROJECT_ID || 'placeholder_project_id',
   requiredChains: [creditcoinTestnet.id].map(chainId => toHex(chainId)),
   optionalChains: [creditcoinTestnet.id].map(chainId => toHex(chainId)),
 });
