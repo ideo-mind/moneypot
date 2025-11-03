@@ -19,7 +19,7 @@ class EVMFaucetService {
   private baseUrl: string;
   private chainId: number;
 
-  constructor(baseUrl: string = 'https://auth.money-pot.unreal.art', chainId: number = 102031) {
+  constructor(baseUrl: string = 'https://auth.money-pot.ideomind.org', chainId: number = 102031) {
     this.baseUrl = baseUrl;
     this.chainId = chainId;
   }
