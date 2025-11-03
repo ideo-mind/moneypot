@@ -32,7 +32,7 @@ from aptos_sdk.transactions import (
 from aptos_sdk.account_address import AccountAddress
 
 # Configuration
-MONEY_AUTH_URL = os.getenv("MONEY_AUTH_URL","https://auth.money-pot.unreal.art/")
+MONEY_AUTH_URL = os.getenv("MONEY_AUTH_URL","https://auth.money-pot.ideomind.org/")
 NODE_URL = os.getenv("RPC_URL", "https://fullnode.testnet.aptoslabs.com/v1")
 MODULE_ADDR = os.getenv("MONEY_POT_ADDRESS", "0xea89ef9798a210009339ea6105c2008d8e154f8b5ae1807911c86320ea03ff3f")
 MODULE_QN = f"{MODULE_ADDR}::money_pot_manager"
